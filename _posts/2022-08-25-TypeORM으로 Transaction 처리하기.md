@@ -2,7 +2,7 @@
 title: TypeORM으로 Transaction 처리하기
 date: 2022-08-25
 categories: [DB]
-pin: true
+
 tags: [TypeORM, Transaction]
 ---
 
@@ -11,7 +11,7 @@ tags: [TypeORM, Transaction]
 > [typeorm-tracsactional](https://www.npmjs.com/package/typeorm-transactional) 0.1.1
  {: .prompt-info }
 
-# Transaction이란?
+# Transaction이란? [#Transactio]
 {: .mt-4 .mb-4 }
 
 우선 `트랜잭션(Transaction)`이란 무엇일까요? <br>
