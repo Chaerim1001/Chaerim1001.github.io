@@ -2,6 +2,11 @@
   Post-specific style
 */
 
+h2 {
+  color: #0550ae; /* 글자 색상을 파란색으로 설정 */
+  font-weight: bold;
+}
+
 %btn-post-nav {
   width: 50%;
   position: relative;
@@ -300,7 +305,6 @@ h1 + .post-meta {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
-
   .card {
     h4 {
       @extend %text-clip;
