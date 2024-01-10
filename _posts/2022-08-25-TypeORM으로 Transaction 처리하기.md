@@ -11,7 +11,7 @@ tags: [TypeORM, Transaction]
 > [typeorm-tracsactional](https://www.npmjs.com/package/typeorm-transactional) 0.1.1
  {: .prompt-info }
 
-# Transaction이란?
+## Transaction이란?
 {: .mt-4 .mb-4 }
 
 우선 `트랜잭션(Transaction)`이란 무엇일까요? <br>
@@ -185,7 +185,6 @@ transaction을 처리하는 `Service` 코드입니다. 앞서 본 queryRunner를
     }
   }
 ```
-
 
 <br>
 

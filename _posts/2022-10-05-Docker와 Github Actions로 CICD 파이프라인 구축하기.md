@@ -12,9 +12,9 @@ tags: [Docker, Github Actions, CI/CD, AWS]
  {: .prompt-info }
 
 
-# 지속적 통합: CI(Continuous Integration)
+## 지속적 통합: CI(Continuous Integration)
 
-## (1) Dockerfile 작성하기
+### (1) Dockerfile 작성하기
 Docker image 생성을 위해 Dockerfile을 작성해 줍니다.
 ```yml
 FROM node:16.15.1
@@ -28,7 +28,7 @@ EXPOSE 3000
 CMD ["npm", "run", "start:dev"]
 ```
 
-## (2) docker-compose.yml
+### (2) docker-compose.yml
 데이터베이스는 mysql을 사용하였습니다.
 
 ```yml
@@ -65,7 +65,7 @@ networks:
   server:
 ```
 
-## (3) docker-ci.yml
+### (3) docker-ci.yml
 master 브랜치에 해당 이벤트가 발생하면 도커허브에 로그인하여 변경사항이 반영된 이미지를 생성해 올리도록 작업을 설정해 줍니다.
 여기서 사용하는 변수들은 repository secret 변수에 등록해주어야 사용이 가능합니다. (CD 뒷 부분에 방법 참고!)
 ```yml
@@ -101,23 +101,23 @@ jobs:
 ```
 
 
-# 지속적 배포: CD(Continuous Deployment)
+## 지속적 배포: CD(Continuous Deployment)
 배포는 AWS를 활용하였습니다. (프리 티어!)
 
-## (1) AWS EC2 인스턴스 생성
+### (1) AWS EC2 인스턴스 생성
 
-### (1) AMI 선택
+#### (1) AMI 선택
 AMI는 인스턴스를 시작하는 최초의 운영체제를 의미하는데, **ubuntu server 20.04 버전** 으로 설정했습니다.
 
 <img src="https://velog.velcdn.com/images/chaerim1001/post/99a65f6a-66fa-4035-a587-9560da8b8316/image.png"  alt="aws_ec2_ami">
 
-### (2) 키페어 생성
+#### (2) 키페어 생성
 ``` .pem ``` 파일 형식으로 키 페어를 생성합니다. 
 네트워크나 다른 설정은 기본 값으로 두고 진행하였습니다.
 
 <img src="https://velog.velcdn.com/images/chaerim1001/post/2a17fe06-576f-49ee-9565-cca0093cef5a/image.png" alt="aws_key">
 
-### (3) 보안 그룹 구성
+#### (3) 보안 그룹 구성
 인스턴스를 생성한 뒤에는 인스턴스 상세 화면에서 보안 그룹을 확인할 수 있습니다.
 보안 그룹을 클릭하여 인바운드 규칙을 추가해 줍니다.
 
@@ -127,7 +127,7 @@ AMI는 인스턴스를 시작하는 최초의 운영체제를 의미하는데, *
 
 <img src="https://velog.velcdn.com/images/chaerim1001/post/8dbf13a4-2777-4d56-8e3d-34e25502bf16/image.png" alt="security_group_2"> 
 
-### (4) 고정 IP 설정
+#### (4) 고정 IP 설정
 인스턴스를 중지했다가 다시 시작하면 IP가 계속 바뀌기 때문에 고정적인 IP 사용을 위해 탄력적 IP (Elastic) IP를 설정해 줍니다.
 
 <img src="https://velog.velcdn.com/images/chaerim1001/post/d79cf830-ca6f-4bdc-af69-74d1eb3ab479/image.png" alt="elastic_ip">
@@ -138,14 +138,14 @@ IP 할당 후 생성된 IP로 들어가 앞서 생성한 인스턴스를 연결�
 
 _인스턴스를 더이상 사용하지 않아 중지할 때에는 IP도 함께 릴리즈해야 합니디!!_
 
-## (2) 인스턴스 접속하기
+### (2) 인스턴스 접속하기
 EC2로 인스턴스에 ssh를 사용하여 접속해 봅시다!
 
 <img src="https://velog.velcdn.com/images/chaerim1001/post/26babcad-7ec8-4758-84f0-e008b58da87e/image.png" alt="connect">
 
 생성한 인스턴스의 Connect 탭으로 들어가 SSH Client 부분에서 자신의 환경에 맞는 명령어를 확인할 수 있으니 그대로 진행하면 됩니다.
 
-## (3) Docker 설치
+### (3) Docker 설치
 접속한 서버에 docker를 설치해 줍니다.
 
 ```console
@@ -166,9 +166,9 @@ $ sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 이후 docker 명령을 입력하면 docker 명령어들이 나오는데 그렇게 나오면 docker가 잘 설치된 것입니다.
 
-## (4) Github actions 설정
+### (4) Github actions 설정
 
-### (1) build-and-deploy.yml 작성
+#### (1) build-and-deploy.yml 작성
 ```yml
 name: build and deploy
 
@@ -221,7 +221,7 @@ jobs:
 
 master 브랜치에 push 이벤트가 발생했을 때 해당 작업을 수행하도록 워크플로우를 작성해 줍니다.
 
-### (2) ssh password 생성
+#### (2) ssh password 생성
 
 ssh 배포에 [appleboy](https://github.com/appleboy/ssh-action) 를 활용하는데 private key나 password를 사용해 ssh 접속이 가능합니다. 저는 password를 사용해 접속하는 방법을 선택했기 때문에 비밀번호를 생성해준 뒤 repository의 secret 변수로 등록해 줍니다.
 
@@ -244,7 +244,7 @@ $ sudo vi /etc/ssh/sshd_config
 $ service ssh restart
 ```
 
-### (3) secret 변수 설정
+#### (3) secret 변수 설정
 yml에서 사용한 secret 변수들을 설정해 줍니다.
 repository의 **settings/security/secrets/actions** 탭에 들어가서 변수를 추가할 수 있습니다.
 
@@ -256,7 +256,7 @@ ec2 인스턴스는 생성할 때 선택한 AMI에 따라 [username](https://doc
 * password: 위에서 생성해준 ssh의 password
 * port: ssh 접속 포트번호 (기본으로 ssh 접속을 위해 열려있는 포트 번호는 22다)
 
-## (5. Docker 권한 문제)
+### (5. Docker 권한 문제)
 윗 단계까지 진행하고 push를 하면
 
 ```
@@ -266,20 +266,22 @@ err: Got permission denied while trying to connect to the Docker daemon socket
 과 같은 에러가 발생할 수 있습니다.
 이는 docker group에 해당 유저가 없어서 생기는 에러인데 docker group에 추가만 해주면 바로 해결됩니다.
 
-### (1) ssh로 접속해서 docker group이 없을 경우에는 생성해준다.
+#### (1) ssh로 접속해서 docker group이 없을 경우에는 생성해준다.
 ```console
 $ sudo groupadd docker
 ```
 
-### (2) docker group 해당 유저 추가
+#### (2) docker group 해당 유저 추가
 ```console
 $ sudo usermod -aG docker $USER
 ```
 
-### (3) 변경사항 적용
+#### (3) 변경사항 적용
 ```console
 $ newgrp docker
 ```
+
+<br>
 
 >참고 <br>
 >https://docs.docker.com/engine/install/ubuntu/ <br>

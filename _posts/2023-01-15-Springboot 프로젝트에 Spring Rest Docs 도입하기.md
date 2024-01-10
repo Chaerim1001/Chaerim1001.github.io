@@ -12,17 +12,17 @@ tags: [Spring Rest Docs]
 > Gradle 7.6
 {: .prompt-info }
 
-# API 문서화 도구의 필요성 
+## API 문서화 도구의 필요성 
 다른 개발 팀원분들과 원활히 협업하기 위해서 API 문서화는 필수죠?!
 
 API 문서화를 위해서는 도구를 사용하거나 개발자가 API에 대한 내용을 직접 작성할 수도 있습니다. 그러나 개발자가 직접 문서화하는 방법은 아무래도 사람이 수작업으로 하는 일이다 보니 수정 사항을 잊어버리고 반영하지 않는다거나 하는 상황이 발생할 수도 있습니다.
 
 그렇기 때문에 API 문서화 도구 사용을 많이들 추천합니다.
 
-# Swagger VS Spring REST Docs
+## Swagger VS Spring REST Docs
 많이 사용하는 API 문서화 도구에는 **Spring REST Docs**와 **Swagger**가 있습니다.
 
-## (1) Swagger
+### (1) Swagger
 - 장점
   - Spring REST Docs에 비해 설정이 쉽다.
   - API 문서에서 테스트가 가능하다.
@@ -32,7 +32,7 @@ API 문서화를 위해서는 도구를 사용하거나 개발자가 API에 대�
   - Production 코드에 Swagger 관련 코드가 함께 들어간다.
   - 테스트 기반이 아니기 때문에 문서의 안정성을 보장해주지 않는다.
 
-## (2) Spring REST Docs 
+### (2) Spring REST Docs 
 **Spring REST Docs**는 **테스트 코드 기반**으로 RESTful 문서 생성을 도와주는 도구입니다.
 
 - 장점
@@ -43,21 +43,21 @@ API 문서화를 위해서는 도구를 사용하거나 개발자가 API에 대�
   - Swagger보다 설정이 까다롭고 공식 문서 외의 레퍼런스가 많지 않다.
   - 테스트 코드 아래에 이어 붙이는 형식으로 지원하기 때문에 테스트 코드의 양이 많아진다.
 
-# Spring REST Docs를 선택한 이유
-## (1) 테스트 코드 작성의 강제성(?)
+## Spring REST Docs를 선택한 이유
+### (1) 테스트 코드 작성의 강제성(?)
 Spring REST Docs는 테스트 코드를 통과한 API만 문서에 반영해 주는데요..!
 
 진행 중인 프로젝트 기한이 8주로 정해져있기 때문에 8주 내에 테스트 코드까지 완벽하게 완성시킬 수 있을까에 대한 걱정이 있었습니다. 하지만 이렇게 강제적으로라도 테스트 코드를 작성하는 것이 어플리케이션의 안정성 및 실력 강화 측면에서도 도움이 될 것이라고 생각하였고 함께하는 백엔드 팀원분의 의견도 일치하여 Swagger 대신 Spring REST Docs를 선택하게 되었습니다.
 
-## (2) Swagger 사용 시 Production 코드에 Swagger 코드가 섞인다.
+### (2) Swagger 사용 시 Production 코드에 Swagger 코드가 섞인다.
 이전 프로젝트에서 Swagger를 사용하면서 가장 불편하다고 느꼈던 부분입니다.
 
 쉽게 반영할 수 있고 원하는 내용을 문서화하기에는 편리했지만 그만큼 직접 Production 코드 위에 어노테이션을 통해 입력해 줘야 하는 부분이 많아 개인적으로 코드가 지저분해진다는 느낌을 받았습니다.
 
 이러한 이유로 이번 프로젝트에는 Spring REST Docs를 사용하기로 했습니다.
 
-# Springboot에서 Spring Rest Docs 사용하기
-## (1) build.gradle
+## Springboot에서 Spring Rest Docs 사용하기
+### (1) build.gradle
 
 ```java
 plugins {
@@ -132,7 +132,7 @@ adoc 파일에서 사용할 snippets 속성이 자동으로 `build/generated-sni
 
 * (13) copyDocument 후 build 지정
 
-## (2) RestDocsConfiguration
+### (2) RestDocsConfiguration
 
 snippets을 좀더 보기좋게 생성하고 싶다면 `prettyPrint()`를 `preprocessors`에 걸어주면 되는데 이를 위해서는 `RestDocumentationResultHandler`의 `write` 메소드에 지정 후 `Bean`으로 등록해주면 됩니다.
 
@@ -167,7 +167,7 @@ public class RestDocsConfiguration {
 }
 ```
 
-## (3) AbstractRestDocsTests
+### (3) AbstractRestDocsTests
 RestDocs에 대한 설정을 모든 테스트 클래스의 setUp으로 동일하게 작성해 줄 필요는 없으니 abstract 클래스로 만들어 각 테스트 클래스들이 상속받아 사용하도록 만들어줍니다.
 
 ```java
@@ -210,7 +210,7 @@ public abstract class AbstractRestDocsTests {
 }
 
 ```
-## (4) Test할 Controller 생성하기
+### (4) Test할 Controller 생성하기
 이제 REST Docs 사용을 위한 설정은 끝났으니 잘 작동하는지 controller와 test를 작성해서 직접 알아봅시다.
 
 정말 간단하게 String 값을 return해주는 Get 요청 API를 하나 만들었습니다.
@@ -229,7 +229,7 @@ public class RestDocsTestController {
 }
 ```
 
-## (5) API 테스트 코드 작성하기
+### (5) API 테스트 코드 작성하기
 앞에서 작성한 API에 대해 테스트 코드를 작성해 봅시다.
 
 원래 REST Docs 적용을 위해서는 andDo()를 사용하여 field에 대한 내용을 채워줘야하지만 상속받은 **AbstractRestDocsTests**에서 `BeforeEach`로 `.alwaysDo(restDocs)` 설정을 해주었기 때문에 `RestDocumentationResultHandler`가 알아서 실제 응답에 따라 API를 생성해 줍니다.
@@ -253,7 +253,7 @@ class RestDocsTestControllerTest extends AbstractRestDocsTests {
 }
 ```
 
-## (6) adoc 문서 작성하기
+### (6) adoc 문서 작성하기
 이제 adoc 문서만 작성하면 완성입니다!
 
 앞에서 계속 봐온 `Asciidoctor`란 AsciiDoc을 HTML, DocBook 등으로 변환하기 위한 빠른 텍스트 프로세서(.adoc)로, 마크다운과 비슷한 문법을 가지고 있어 마크다운을 조금이라도 사용해본 사람이라면 금방 사용할 수 있습니다.
@@ -265,7 +265,7 @@ class RestDocsTestControllerTest extends AbstractRestDocsTests {
 
 <a href="https://www.yeh35.com/cdb9c304-7637-4349-b309-585e4a8d5388#f2a60b9a-f9e2-4800-aa75-70786b143909">asciidoc 문법 참고</a>
 
-### (1) index.adoc
+#### (1) index.adoc
 전체 코드를 연결해줄 홈 화면이라고 생각하면 됩니다. `include`를 통해 다른 파일을 연결할 수 있습니다.
 
 ```
@@ -279,7 +279,7 @@ class RestDocsTestControllerTest extends AbstractRestDocsTests {
 include::test.adoc[]
 ```
 
-### (2) test.adoc
+#### (2) test.adoc
 RestDocsTestController에 대한 부분을 작성해 주었습니다. `operation`을 사용해 snippet의 디렉토리를 지정하고 뒤에 원하는 snippet 종류를 넣어주면 됩니다.
 
 ```
@@ -298,6 +298,7 @@ operation::rest-docs-test-controller-test/rest-docs-test[snippets="http-request,
 
 <img src="https://velog.velcdn.com/images/chaerim1001/post/ee7c15d5-626a-47a3-b6b3-41d07003b7f1/image.png" alt="rest_docs_html">
 
+<br>
 
 > 참고 <br>
 > https://spring.io/projects/spring-restdocs <br>
