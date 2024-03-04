@@ -1,7 +1,7 @@
 ---
 title: Springboot 프로젝트에 SonarCloud 적용하기
 date: 2023-06-20
-categories: [Springboot]
+categories: [Spring]
 
 tags: [Springboot, SonarCloud]
 ---

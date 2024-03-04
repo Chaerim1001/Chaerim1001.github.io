@@ -1,7 +1,7 @@
 ---
 title: Springboot 프로젝트에 Spring Rest Docs 도입하기
 date: 2023-01-15
-categories: [Springboot]
+categories: [Spring]
 
 tags: [Spring Rest Docs]
 ---
